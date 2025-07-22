@@ -1,29 +1,33 @@
-name: Run Task
+name: Run Puppeteer Task
+
 on:
   workflow_dispatch:
   schedule:
     - cron: "*/30 * * * *"
 
 jobs:
-  build-and-deploy:
+  run-task:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.4.0
-        with:
-          ref: ${{ github.head_ref }}
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Running
+      - name: Cache Puppeteer Chromium
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
         run: |
-          npm cache clean --force
-          npm install
-          npm run task
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false npm install
+
+      - name: Debug Puppeteer executable path
+        run: node -e "console.log(require('puppeteer').executablePath())"
+
+      - name: Run scraper
+        run: npm run task
         env:
           CHAT_ID: ${{ secrets.CHAT_ID }}
           BOT_API: ${{ secrets.BOT_API }}
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update db.json
-          branch: main

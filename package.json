@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "src/main.js",
+  "type": "module",
   "scripts": {
-    "task": "node -r esm src/main.js",
+    "task": "node src/main.js",
     "bump": "ncu -u -t minor"
   },
   "repository": {
@@ -19,10 +20,9 @@
   "homepage": "https://github.com/blopa/funda-scraper#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "esm": "^3.2.25",
     "jsdom": "^19.0.0",
     "node-fetch": "2.6.7",
     "npm-check-updates": "^12.5.3",
-    "puppeteer": "^13.5.1"
+    "puppeteer": "^24.14.0"
   }
 }

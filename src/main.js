@@ -1,9 +1,10 @@
-require('dotenv').config();
-const { writeFileSync, readFileSync } = require('fs');
-const puppeteer = require('puppeteer');
-const jsdom = require('jsdom');
-const nodeFetch = require('node-fetch');
-const { getZipCode, getNeighbourhoodData, convertResidentsToPercentage} = require('./utils/utils');
+import 'dotenv/config';
+import { writeFileSync, readFileSync } from 'fs';
+import puppeteer from 'puppeteer';
+import { JSDOM } from 'jsdom';
+import fetch from 'node-fetch';
+import { getZipCode, getNeighbourhoodData, convertResidentsToPercentage } from './utils/utils.js';
+
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
@@ -16,6 +17,8 @@ const houses = [];
 const { CHAT_ID, BOT_API } = process.env;
 
 const urls = [
+    // 'https://www.funda.nl/en/koop/amsterdam/beschikbaar/0-300000/40+woonopp/2+slaapkamers/1-dag/',
+    // 'https://www.funda.nl/en/koop/haarlem/beschikbaar/0-300000/40+woonopp/2+slaapkamers/1-dag/',
     'https://www.funda.nl/zoeken/koop?selected_area=["den-haag"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
     'https://www.funda.nl/zoeken/koop?selected_area=["zoetermeer"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
     'https://www.funda.nl/zoeken/koop?selected_area=["delft"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
@@ -85,7 +88,7 @@ shareOfTurkey: **${shareOfTurkey}**
                 text = `${text}\n${extraStuff}`;
             }
 
-            nodeFetch(`https://api.telegram.org/bot${BOT_API}/sendMessage`, {
+            fetch(`https://api.telegram.org/bot${BOT_API}/sendMessage`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,11 +107,7 @@ const runPuppeteer = async (url) => {
     console.log('opening headless browser');
     const browser = await puppeteer.launch({
         headless: true,
-        args: [`--window-size=${WIDTH},${HEIGHT}`],
-        defaultViewport: {
-            width: WIDTH,
-            height: HEIGHT,
-        },
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
@@ -119,7 +118,7 @@ const runPuppeteer = async (url) => {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const htmlString = await page.content();
-    const dom = new jsdom.JSDOM(htmlString);
+    const dom = new JSDOM(htmlString);
 
 
     console.log('parsing funda.nl data');

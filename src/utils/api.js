@@ -1,5 +1,5 @@
 // Code from https://github.com/nikitaindik/funda-neighbourhoods/blob/de9b65b255a4c03a9ddb581e1472f6970240d9f7/src/background/api.js
-import nodeFetch from 'node-fetch';
+import fetch from 'node-fetch';;
 
 const STATS_API_ID_BY_YEAR = {
     2015: '83220NED',
@@ -20,7 +20,7 @@ export async function fetchNeighbourhoodMeta(zipCode) {
 
     const urlParametersString = getParametersString(parameters);
 
-    const response = await nodeFetch(`https://geodata.nationaalgeoregister.nl/locatieserver/v3/free?${urlParametersString}`);
+    const response = await fetch(`https://geodata.nationaalgeoregister.nl/locatieserver/v3/free?${urlParametersString}`);
 
     const responseJson = await response.json();
 
@@ -32,6 +32,7 @@ export async function fetchNeighbourhoodMeta(zipCode) {
             municipalityName: firstPayloadItem.gemeentenaam,
         };
     } catch (error) {
+        console.error('Error parsing neighbourhood meta:', error);
         return null;
     }
 }
@@ -68,7 +69,7 @@ async function fetchDataForYear(apiId, neighbourhoodCode) {
     const requestUrl = `https://opendata.cbs.nl/ODataApi/odata/${apiId}/TypedDataSet?${parameters}`;
 
     try {
-        const response = await nodeFetch(requestUrl);
+        const response = await fetch(requestUrl);
         const responseJson = await response.json();
         return responseJson.value[0];
     } catch (error) {
