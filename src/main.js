@@ -16,8 +16,15 @@ const houses = [];
 const { CHAT_ID, BOT_API } = process.env;
 
 const urls = [
-    'https://www.funda.nl/en/koop/amsterdam/beschikbaar/0-300000/40+woonopp/2+slaapkamers/1-dag/',
-    'https://www.funda.nl/en/koop/haarlem/beschikbaar/0-300000/40+woonopp/2+slaapkamers/1-dag/',
+    'https://www.funda.nl/zoeken/koop?selected_area=["den-haag"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["zoetermeer"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["delft"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["nootdorp"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["delft"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["boskoop"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["rijswijk"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["gemeente-westland"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
+    'https://www.funda.nl/zoeken/koop?selected_area=["voorschoten"]&price=""0-275000""&publication_date="1"&availability=["available"]&floor_area="40-"&bedrooms="2-"',
 ];
 
 const runTask = async () => {
